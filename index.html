@@ -456,24 +456,28 @@
         }
 
         function generatePDFAndSubmit(event) {
-            event.preventDefault(); // Pause form submit to generate and attach PDF
+    event.preventDefault(); // Pause form submit to generate and attach PDF
 
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-            // PDF Title Header
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
-            doc.setTextColor(14, 116, 144);
-            doc.text("ADVANCE ELECTRICAL", 14, 20);
+    // PDF Title Header
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.setTextColor(14, 116, 144);
+    doc.text("ADVANCE ELECTRICAL", 14, 20);
 
-            doc.setFontSize(11);
-            doc.setTextColor(100, 100, 100);
-            doc.text("Transformer Testing Bench - RFQ Specification Summary", 14, 28);
+    doc.setFontSize(11);
+    doc.setTextColor(100, 100, 100);
+    doc.text("Transformer Testing Bench - RFQ Specification Summary", 14, 28);
 
-            doc.setLineWidth(0.5);
-            doc.setLineColor(200, 200, 200);
-            doc.line(14, 33, 196, 33);
+    doc.setLineWidth(0.5);
+    // FIXED: Use setDrawColor instead of setLineColor
+    doc.setDrawColor(200, 200, 200); 
+    doc.line(14, 33, 196, 33);
+    
+    // Continue with the rest of your PDF generation...
+}
 
             // Customer Details Data
             const comp = document.getElementById('compName').value;
