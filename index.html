@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advance Electrical - Transformer Testing RFQ Portal</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jsPDF & AutoTable Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .step-content { display: none; }
+        .step-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-[#0B0F19] text-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-4xl bg-gray-900/90 backdrop-blur-md border border-gray-800 rounded-2xl shadow-2xl overflow-hidden p-6 sm:p-8 my-6">
+
+        <!-- FormSubmit Action Link with multipart/form-data for PDF Attachment -->
+        <form id="rfq-form" action="https://formsubmit.co/advanceelectrical.work@gmail.com" method="POST" enctype="multipart/form-data" onsubmit="generatePDFAndSubmit(event)">
+
+            <input type="hidden" name="_template" value="table">
+            
+            <!-- Hidden file input to attach generated PDF to email -->
+            <input type="file" id="pdfAttachment" name="attachment" style="display:none;">
+
+            <!-- STEP 1: WELCOME SCREEN -->
+            <div id="step-1" class="step-content active text-center space-y-6 py-6">
+                <div class="inline-flex items-center justify-center bg-cyan-950/60 border border-cyan-500/30 rounded-full px-4 py-1.5">
+                    <i class="fa-solid fa-bolt text-cyan-400 mr-2"></i>
+                    <span class="text-xs font-semibold tracking-wider text-cyan-300 uppercase">ADVANCE ELECTRICAL</span>
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Transformer Testing Inquiry</h1>
+
+                <p class="text-gray-400 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
+                    Get custom quotes for automated & manual Transformer Testing Bench Systems instantly. Click below to enter your parameters.
+                </p>
+
+                <button type="button" onclick="nextStep(2)" class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-gray-950 font-bold px-10 py-4 rounded-xl transition cursor-pointer text-base shadow-lg">
+                    START REQUIREMENT FORM <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- STEP 2: DETAILS & TECHNICAL SPECS -->
+            <div id="step-2" class="step-content space-y-6">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <h2 class="text-lg font-semibold text-cyan-400 flex items-center">
+                        <span class="bg-cyan-500/10 text-cyan-400 w-7 h-7 rounded-lg flex items-center justify-center mr-2.5 text-sm font-bold border border-cyan-500/20">1</span>
+                        Customer & Technical Requirements
+                    </h2>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">Company Name *</label>
+                        <input type="text" id="compName" name="Company Name" required placeholder="Enter company name" class="w-full bg-gray-950/60 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">Contact Person *</label>
+                            <input type="text" id="contactPerson" name="Contact Person" required placeholder="Enter your name" class="w-full bg-gray-950/60 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">Email Address *</label>
+                            <input type="email" id="emailAddr" name="Email" required placeholder="name@company.com" class="w-full bg-gray-950/60 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">Phone / WhatsApp *</label>
+                        <div class="flex">
+                            <select name="Country Code" class="bg-gray-800 border border-gray-800 rounded-l-xl px-3 text-xs text-cyan-400 font-semibold focus:outline-none">
+                                <option value="+91">🇮🇳 +91</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+971">🇦🇪 +971</option>
+                            </select>
+                            <input type="tel" id="phoneNum" name="Phone Number" required placeholder="9876543210" class="w-full bg-gray-950/60 border-y border-r border-gray-800 rounded-r-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">Company Address / Location *</label>
+                        <textarea id="compAddr" name="Company Address" rows="2" required placeholder="Enter plant or office address" class="w-full bg-gray-950/60 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500"></textarea>
+                    </div>
+                </div>
+
+                <!-- Transformer Technical Specifications -->
+                <div class="bg-cyan-950/30 border border-cyan-500/40 rounded-2xl p-4 sm:p-5 space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-cyan-500/20 pb-2">
+                        <i class="fa-solid fa-bolt text-cyan-400 text-xs"></i>
+                        <h3 class="text-xs font-bold text-cyan-300 uppercase tracking-wider">Transformer Specifications & Test Parameters</h3>
+                    </div>
+
+                    <!-- Transformer Rating (Minimum & Maximum) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300 uppercase mb-1">Minimum Rating</label>
+                            <div class="flex">
+                                <input type="number" id="minRatingVal" name="Minimum Rating Value" step="any" placeholder="e.g. 100" class="w-full bg-gray-950 border border-gray-800 rounded-l-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                                <select id="minRatingUnit" name="Minimum Rating Unit" class="bg-gray-800 border-y border-r border-gray-800 rounded-r-xl px-2 text-xs text-cyan-400 font-bold focus:outline-none">
+                                    <option value="kVA">kVA</option>
+                                    <option value="MVA">MVA</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300 uppercase mb-1">Maximum Rating</label>
+                            <div class="flex">
+                                <input type="number" id="maxRatingVal" name="Maximum Rating Value" step="any" placeholder="e.g. 5000" class="w-full bg-gray-950 border border-gray-800 rounded-l-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                                <select id="maxRatingUnit" name="Maximum Rating Unit" class="bg-gray-800 border-y border-r border-gray-800 rounded-r-xl px-2 text-xs text-cyan-400 font-bold focus:outline-none">
+                                    <option value="kVA">kVA</option>
+                                    <option value="MVA">MVA</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HV Side Voltage (Minimum & Maximum) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300 uppercase mb-1">Minimum HV Side Voltage</label>
+                            <div class="flex">
+                                <input type="number" id="minHVVal" name="Minimum HV Voltage" step="any" placeholder="e.g. 11" class="w-full bg-gray-950 border border-gray-800 rounded-l-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                                <select id="minHVUnit" name="Min HV Voltage Unit" class="bg-gray-800 border-y border-r border-gray-800 rounded-r-xl px-2 text-xs text-cyan-400 font-bold focus:outline-none">
+                                    <option value="kV">kV</option>
+                                    <option value="V">V</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300 uppercase mb-1">Maximum HV Side Voltage</label>
+                            <div class="flex">
+                                <input type="number" id="maxHVVal" name="Maximum HV Voltage" step="any" placeholder="e.g. 33" class="w-full bg-gray-950 border border-gray-800 rounded-l-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                                <select id="maxHVUnit" name="Max HV Voltage Unit" class="bg-gray-800 border-y border-r border-gray-800 rounded-r-xl px-2 text-xs text-cyan-400 font-bold focus:outline-none">
+                                    <option value="kV">kV</option>
+                                    <option value="V">V</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LV Side Voltage (Minimum & Maximum) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300 uppercase mb-1">Minimum LV Side Voltage</label>
+                            <div class="flex">
+                                <input type="number" id="minLVVal" name="Minimum LV Voltage" step="any" placeholder="e.g. 415" class="w-full bg-gray-950 border border-gray-800 rounded-l-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                                <select id="minLVUnit" name="Min LV Voltage Unit" class="bg-gray-800 border-y border-r border-gray-800 rounded-r-xl px-2 text-xs text-cyan-400 font-bold focus:outline-none">
+                                    <option value="V">V</option>
+                                    <option value="kV">kV</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300 uppercase mb-1">Maximum LV Side Voltage</label>
+                            <div class="flex">
+                                <input type="number" id="maxLVVal" name="Maximum LV Voltage" step="any" placeholder="e.g. 433" class="w-full bg-gray-950 border border-gray-800 rounded-l-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                                <select id="maxLVUnit" name="Max LV Voltage Unit" class="bg-gray-800 border-y border-r border-gray-800 rounded-r-xl px-2 text-xs text-cyan-400 font-bold focus:outline-none">
+                                    <option value="V">V</option>
+                                    <option value="kV">kV</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Impedance & Frequency -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300 uppercase mb-1">Maximum % Impedance (% Z)</label>
+                            <input type="number" id="maxImpedance" name="Maximum Percent Impedance" step="0.01" placeholder="e.g. 6.25%" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300 uppercase mb-1">Frequency under Test</label>
+                            <select id="freqTest" name="Transformer Frequency" class="w-full bg-gray-950 border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+                                <option value="50 Hz">50 Hz</option>
+                                <option value="60 Hz">60 Hz</option>
+                                <option value="50 / 60 Hz Dual">50 / 60 Hz Dual</option>
+                                <option value="Variable Frequency Drive (VFD)">Variable Frequency Drive (VFD)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Testing System Operation Mode & Auto Report Generation -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div>
+                            <label class="block text-[11px] font-bold text-cyan-300 uppercase mb-1">Testing System Operation Type *</label>
+                            <select id="opMode" name="Testing System Operation Mode" required class="w-full bg-gray-950 border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+                                <option value="Full Automatic (PLC / SCADA Control)">Full Auto (PLC / SCADA Automatic)</option>
+                                <option value="Manual (Hand Operated Desk)">Manual (Hand-Operated System)</option>
+                                <option value="Semi-Automatic">Semi-Automatic System</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-cyan-300 uppercase mb-1">Automatic Test Report Generation *</label>
+                            <select id="autoReport" name="Automatic Report Generation" required class="w-full bg-gray-950 border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+                                <option value="Yes - Auto Report Required (PDF/Excel)">Yes - Auto Report Generation Required</option>
+                                <option value="No - Report Generation Not Required">No - Auto Report Not Required</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Routine Tests Scope Checkboxes -->
+                    <div class="pt-2 border-t border-cyan-500/20">
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-[11px] font-bold text-cyan-300 uppercase tracking-wider">Select Routine Tests Required:</label>
+                            <label class="flex items-center space-x-1.5 text-[11px] font-medium text-cyan-400 cursor-pointer">
+                                <input type="checkbox" id="select-all-tests" onchange="toggleSelectAllTests(this)" class="accent-cyan-500 w-3.5 h-3.5 rounded">
+                                <span>Select All Tests</span>
+                            </label>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Voltage Ratio & Phase Displacement" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Voltage Ratio & Vector Group</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Winding Resistance Test" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Winding Resistance Test</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="No-Load Loss & No-Load Current" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">No-Load Loss & Current</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Load Loss & Short Circuit Impedance" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Load Loss & Impedance (% Z)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Separate Source HV Voltage Withstand Test" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Separate Source HV Withstand</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Induced Overvoltage Withstand (DVDF) Test" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Induced Overvoltage (DVDF) Test</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Insulation Resistance / Megger Test" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Insulation Resistance (IR/Megger)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Oil BDV & DGA Testing" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Transformer Oil BDV / DGA Test</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Partial Discharge (PD) Measurement" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Partial Discharge (PD) Test</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" name="Routine Tests[]" value="Tan Delta & Capacitance Test" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Tan Delta & Capacitance Test</span>
+                            </label>
+                            <label class="flex items-center space-x-2 bg-gray-950/70 border border-gray-800 p-2 rounded-lg cursor-pointer sm:col-span-2">
+                                <input type="checkbox" name="Routine Tests[]" value="Temperature Rise Test (Heat Run)" class="routine-test-cb accent-cyan-500 w-4 h-4 rounded">
+                                <span class="text-gray-300">Temperature Rise Test (Heat Run Test)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Equipment & Testing Instruments Scope Tables -->
+                    <div class="pt-3 border-t border-cyan-500/20 space-y-4">
+                        <!-- Table 1: Equipment Scope -->
+                        <div>
+                            <h4 class="text-xs font-bold text-cyan-300 uppercase mb-2">Equipment Scope</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-gray-800 text-gray-400">
+                                            <th class="py-2 px-2">Item</th>
+                                            <th class="py-2 px-2 text-center">Advance Scope</th>
+                                            <th class="py-2 px-2 text-center">Customer Scope</th>
+                                            <th class="py-2 px-2 text-center">Not Required</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-800/60 text-gray-300">
+                                        <tr>
+                                            <td class="py-2 px-2">Dimmer / Main M-G Set (as applicable)</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Dimmer_MG" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Dimmer_MG" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Dimmer_MG" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">IOVT M-G Set</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_IOVT_MG" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_IOVT_MG" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_IOVT_MG" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">HV Transformer</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_HV_Transformer" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_HV_Transformer" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_HV_Transformer" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">Independent Dimmer for HV Transformer</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_HV_Dimmer" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_HV_Dimmer" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_HV_Dimmer" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">Booster / Intermediate Transformer</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Booster" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Booster" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Booster" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">Current Transformers (CTs)</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_CTs" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_CTs" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_CTs" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">Potential Transformers (PTs)</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_PTs" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_PTs" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_PTs" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">HT Capacitor Bank</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Capacitor" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Capacitor" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_Capacitor" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">Generator & Transformer Protection Panels</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_ProtectionPanel" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_ProtectionPanel" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_ProtectionPanel" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2">Generator Excitation Control Panel</td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_ExcitationPanel" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_ExcitationPanel" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Scope_ExcitationPanel" value="Not Required" class="accent-cyan-500" checked></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Table 2: Testing Instruments Scope (All 7 Instruments Intact) -->
+                        <div>
+                            <h4 class="text-xs font-bold text-cyan-300 uppercase mb-2">Testing Instruments Scope</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-gray-800 text-gray-400">
+                                            <th class="py-2 px-2">Instrument</th>
+                                            <th class="py-2 px-2 text-center">Advance Scope</th>
+                                            <th class="py-2 px-2 text-center">Customer Scope</th>
+                                            <th class="py-2 px-2 text-center">Not Required</th>
+                                            <th class="py-2 px-2 text-center">Make / Brand Preferred</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-800/60 text-gray-300">
+                                        <!-- 1. Ratio Meter -->
+                                        <tr>
+                                            <td class="py-2 px-2 font-medium">Ratio Meter</td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_RatioMeter" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_RatioMeter" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_RatioMeter" value="Not Required" class="accent-cyan-500" checked></td>
+                                            <td class="py-1 px-2"><input type="text" name="Make_RatioMeter" placeholder="e.g. Megger, Omicron" class="w-full bg-gray-950 border border-gray-800 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-cyan-500"></td>
+                                        </tr>
+                                        <!-- 2. Insulation Resistance (IR) Tester -->
+                                        <tr>
+                                            <td class="py-2 px-2 font-medium">Insulation Resistance (IR) Tester</td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_IR" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_IR" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_IR" value="Not Required" class="accent-cyan-500" checked></td>
+                                            <td class="py-1 px-2"><input type="text" name="Make_IR" placeholder="e.g. Megger, Fluke" class="w-full bg-gray-950 border border-gray-800 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-cyan-500"></td>
+                                        </tr>
+                                        <!-- 3. Winding Resistance Meter -->
+                                        <tr>
+                                            <td class="py-2 px-2 font-medium">Winding Resistance Meter</td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_Winding" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_Winding" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_Winding" value="Not Required" class="accent-cyan-500" checked></td>
+                                            <td class="py-1 px-2"><input type="text" name="Make_Winding" placeholder="e.g. UDEY, Raytech" class="w-full bg-gray-950 border border-gray-800 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-cyan-500"></td>
+                                        </tr>
+                                        <!-- 4. Transformer Oil BDV Test Kit -->
+                                        <tr>
+                                            <td class="py-2 px-2 font-medium">Transformer Oil BDV Test Kit</td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_BDV" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_BDV" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_BDV" value="Not Required" class="accent-cyan-500" checked></td>
+                                            <td class="py-1 px-2"><input type="text" name="Make_BDV" placeholder="e.g. BAUR, Megger" class="w-full bg-gray-950 border border-gray-800 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-cyan-500"></td>
+                                        </tr>
+                                        <!-- 5. Tan Delta & Capacitance Test Set -->
+                                        <tr>
+                                            <td class="py-2 px-2 font-medium">Tan Delta & Capacitance Test Set</td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_TanDelta" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_TanDelta" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_TanDelta" value="Not Required" class="accent-cyan-500" checked></td>
+                                            <td class="py-1 px-2"><input type="text" name="Make_TanDelta" placeholder="e.g. Omicron, Megger" class="w-full bg-gray-950 border border-gray-800 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-cyan-500"></td>
+                                        </tr>
+                                        <!-- 6. Partial Discharge (PD) Measurement System -->
+                                        <tr>
+                                            <td class="py-2 px-2 font-medium">Partial Discharge (PD) Measurement System</td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_PD" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_PD" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_PD" value="Not Required" class="accent-cyan-500" checked></td>
+                                            <td class="py-1 px-2"><input type="text" name="Make_PD" placeholder="e.g. Omicron, Haefely" class="w-full bg-gray-950 border border-gray-800 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-cyan-500"></td>
+                                        </tr>
+                                        <!-- 7. Digital Power Analyzer / Harmonics Meter -->
+                                        <tr>
+                                            <td class="py-2 px-2 font-medium">Digital Power Analyzer / Loss Meter</td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_PowerAnalyzer" value="Advance Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_PowerAnalyzer" value="Customer Scope" class="accent-cyan-500"></td>
+                                            <td class="text-center py-2"><input type="radio" name="Inst_PowerAnalyzer" value="Not Required" class="accent-cyan-500" checked></td>
+                                            <td class="py-1 px-2"><input type="text" name="Make_PowerAnalyzer" placeholder="e.g. Yokogawa, Hioki" class="w-full bg-gray-950 border border-gray-800 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-cyan-500"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex justify-between pt-4 border-t border-gray-800">
+                    <button type="button" onclick="nextStep(1)" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-medium px-6 py-2.5 rounded-xl transition cursor-pointer text-sm">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Back
+                    </button>
+                    <button type="submit" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-gray-950 font-bold px-8 py-3 rounded-xl transition cursor-pointer text-sm flex items-center shadow-lg">
+                        <span>Submit & Send PDF to Mail</span>
+                        <i class="fa-solid fa-file-pdf ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function nextStep(step) {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('step-' + step).classList.add('active');
+        }
+
+        function toggleSelectAllTests(masterCheckbox) {
+            const checkboxes = document.querySelectorAll('.routine-test-cb');
+            checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+        }
+
+        function getRadioValue(name) {
+            const el = document.querySelector(`input[name="${name}"]:checked`);
+            return el ? el.value : "Not Required";
+        }
+
+        function generatePDFAndSubmit(event) {
+            event.preventDefault(); // Pause form submit to generate and attach PDF
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // PDF Title Header
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.setTextColor(14, 116, 144);
+            doc.text("ADVANCE ELECTRICAL", 14, 20);
+
+            doc.setFontSize(11);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Transformer Testing Bench - RFQ Specification Summary", 14, 28);
+
+            doc.setLineWidth(0.5);
+            doc.setLineColor(200, 200, 200);
+            doc.line(14, 33, 196, 33);
+
+            // Customer Details Data
+            const comp = document.getElementById('compName').value;
+            const person = document.getElementById('contactPerson').value;
+            const email = document.getElementById('emailAddr').value;
+            const phone = document.getElementById('phoneNum').value;
+            const addr = document.getElementById('compAddr').value;
+
+            // Transformer Specs Data
+            const minRating = (document.getElementById('minRatingVal').value || "N/A") + " " + document.getElementById('minRatingUnit').value;
+            const maxRating = (document.getElementById('maxRatingVal').value || "N/A") + " " + document.getElementById('maxRatingUnit').value;
+            const minHV = (document.getElementById('minHVVal').value || "N/A") + " " + document.getElementById('minHVUnit').value;
+            const maxHV = (document.getElementById('maxHVVal').value || "N/A") + " " + document.getElementById('maxHVUnit').value;
+            const minLV = (document.getElementById('minLVVal').value || "N/A") + " " + document.getElementById('minLVUnit').value;
+            const maxLV = (document.getElementById('maxLVVal').value || "N/A") + " " + document.getElementById('maxLVUnit').value;
+            const maxImp = (document.getElementById('maxImpedance').value || "N/A") + "%";
+            const freq = document.getElementById('freqTest').value;
+            const opMode = document.getElementById('opMode').value;
+            const autoRep = document.getElementById('autoReport').value;
+
+            // Selected Routine Tests
+            const selectedTests = [];
+            document.querySelectorAll('.routine-test-cb:checked').forEach(cb => {
+                selectedTests.push(cb.value);
+            });
+            const routineTestsStr = selectedTests.length > 0 ? selectedTests.join(", ") : "None Selected";
+
+            // Instruments Scope & Make Data
+            const ratioScope = getRadioValue('Inst_RatioMeter');
+            const ratioMake = document.querySelector('input[name="Make_RatioMeter"]').value || "N/A";
+
+            const irScope = getRadioValue('Inst_IR');
+            const irMake = document.querySelector('input[name="Make_IR"]').value || "N/A";
+
+            const windingScope = getRadioValue('Inst_Winding');
+            const windingMake = document.querySelector('input[name="Make_Winding"]').value || "N/A";
+
+            const bdvScope = getRadioValue('Inst_BDV');
+            const bdvMake = document.querySelector('input[name="Make_BDV"]').value || "N/A";
+
+            const tanScope = getRadioValue('Inst_TanDelta');
+            const tanMake = document.querySelector('input[name="Make_TanDelta"]').value || "N/A";
+
+            const pdScope = getRadioValue('Inst_PD');
+            const pdMake = document.querySelector('input[name="Make_PD"]').value || "N/A";
+
+            const powerScope = getRadioValue('Inst_PowerAnalyzer');
+            const powerMake = document.querySelector('input[name="Make_PowerAnalyzer"]').value || "N/A";
+
+            // Generate Complete PDF Table
+            doc.autoTable({
+                startY: 38,
+                head: [['Specification Field', 'Submitted Details']],
+                body: [
+                    ['Company Name', comp],
+                    ['Contact Person', person],
+                    ['Email Address', email],
+                    ['Phone Number', phone],
+                    ['Company Address', addr],
+                    ['Minimum Rating', minRating],
+                    ['Maximum Rating', maxRating],
+                    ['Minimum HV Voltage', minHV],
+                    ['Maximum HV Voltage', maxHV],
+                    ['Minimum LV Voltage', minLV],
+                    ['Maximum LV Voltage', maxLV],
+                    ['Maximum % Impedance', maxImp],
+                    ['Frequency under Test', freq],
+                    ['Operation Mode', opMode],
+                    ['Auto Report Generation', autoRep],
+                    ['Selected Routine Tests', routineTestsStr],
+                    ['Ratio Meter', `${ratioScope} (Make: ${ratioMake})`],
+                    ['IR Tester', `${irScope} (Make: ${irMake})`],
+                    ['Winding Resistance Meter', `${windingScope} (Make: ${windingMake})`],
+                    ['Oil BDV Test Kit', `${bdvScope} (Make: ${bdvMake})`],
+                    ['Tan Delta & Capacitance', `${tanScope} (Make: ${tanMake})`],
+                    ['Partial Discharge (PD)', `${pdScope} (Make: ${pdMake})`],
+                    ['Power Analyzer / Loss Meter', `${powerScope} (Make: ${powerMake})`]
+                ],
+                theme: 'grid',
+                headStyles: { fillColor: [14, 116, 144] },
+                styles: { fontSize: 7, cellPadding: 2 }
+                
+            });
+
+            // 1. Download PDF to client device
+            doc.save("Advance_Electrical_RFQ_Summary.pdf");
+
+            // 2. Attach PDF file blob to hidden input
+            const pdfBlob = doc.output('blob');
+            const file = new File([pdfBlob], "Advance_Electrical_RFQ_Summary.pdf", { type: "application/pdf" });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById('pdfAttachment').files = dataTransfer.files;
+
+            // 3. Submit form so FormSubmit emails PDF attachment to advanceelectrical.work@gmail.com
+            document.getElementById('rfq-form').submit();
+        }
+    </script>
+
+</body>
+</html>
